@@ -1,0 +1,36 @@
+expression 'SharePoint Indgang' = ```
+		let
+		    Kilde = let
+		     Kilde = "https://naestvedkommune.sharepoint.com/",
+		     Indgang = SharePoint.Contents(Kilde, [ApiVersion = 15]),
+		     SharePointMappe = Indgang{[Name="Shared Documents"]}[Content]
+		in 
+		     SharePointMappe
+		in
+		    Kilde
+		```
+	lineageTag: ba21c7f1-3cd4-4401-b242-db8633392cae
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression NyesteFil = ```
+		let
+		    Kilde = #"SharePoint Indgang",
+		    #"Ændret type" = let
+		     InputVariabel = "Date modified",
+		     Typer = Table.TransformColumnTypes(Kilde, {{InputVariabel, type date}}), 
+		     Sortering = Table.Sort(Typer, {{"Date modified", Order.Descending}}), 
+		     BeholdFørste = Table.FirstN(Sortering, 1)
+		in
+		     BeholdFørste
+		in
+		    #"Ændret type"
+		```
+	lineageTag: def92e49-b2c6-40b0-a33e-4ec511e9fc12
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
