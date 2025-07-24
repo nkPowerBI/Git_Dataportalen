@@ -17,6 +17,14 @@ table testData
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column Plus10 = [test] + 10
+		lineageTag: 46d3fcf4-dfcd-405c-8bea-38cd8a71f9e3
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	partition testData = m
 		mode: import
 		source =
