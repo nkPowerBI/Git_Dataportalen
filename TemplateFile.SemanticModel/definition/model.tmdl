@@ -6,7 +6,7 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation PBI_QueryOrder = ["testData","SharePoint Indgang","NyesteFil"]
+annotation PBI_QueryOrder = ["SharePointFil","Direkte_Excelfil","Vælg_NyesteFil"]
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
@@ -14,7 +14,7 @@ annotation PBIDesktopVersion = 2.145.1262.0 (25.07)+10bdeda5ab0db954b2cf824e7a11
 
 annotation PBI_ProTooling = ["DevMode"]
 
-ref table testData
+ref table Direkte_Excelfil
 
 ref cultureInfo da-DK
 

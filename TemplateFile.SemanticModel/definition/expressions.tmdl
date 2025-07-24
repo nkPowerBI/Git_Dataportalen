@@ -1,23 +1,26 @@
-expression 'SharePoint Indgang' = ```
+expression SharePointFil =
 		let
 		    Kilde = let
-		     Kilde = "https://naestvedkommune.sharepoint.com/",
-		     Indgang = SharePoint.Contents(Kilde, [ApiVersion = 15]),
-		     SharePointMappe = Indgang{[Name="Shared Documents"]}[Content]
-		in 
-		     SharePointMappe
+		    SiteURL = "https://naestvedkommune.sharepoint.com/sites/KOMLISDokumenter",
+		    Source = SharePoint.Contents(SiteURL, [ApiVersion = 15]),
+		    SharedDocuments = Source{[Name="Shared Documents"]}[Content],
+		    General = SharedDocuments{[Name="General"]}[Content],
+		    SpecificFolder = General{[Name="Test_Jan"]}[Content]
+		
 		in
-		    Kilde
-		```
+		    SpecificFolder,
+		    #"Excelark m. Header" = Table.AddColumn(Kilde, "Data", each Excel.Workbook([Content], true, true){[Item="Ark1",Kind="Sheet"]}[Data])
+		in
+		    #"Excelark m. Header"
 	lineageTag: ba21c7f1-3cd4-4401-b242-db8633392cae
 
 	annotation PBI_NavigationStepName = Navigation
 
 	annotation PBI_ResultType = Table
 
-expression NyesteFil = ```
+expression Vælg_NyesteFil = ```
 		let
-		    Kilde = #"SharePoint Indgang",
+		    Kilde = SharePointFil,
 		    #"Ændret type" = let
 		     InputVariabel = "Date modified",
 		     Typer = Table.TransformColumnTypes(Kilde, {{InputVariabel, type date}}), 

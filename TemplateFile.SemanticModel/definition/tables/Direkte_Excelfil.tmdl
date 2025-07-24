@@ -1,0 +1,23 @@
+table Direkte_Excelfil
+	lineageTag: 1987638c-3a70-4061-a9d4-15355ae70871
+
+	column test
+		dataType: string
+		lineageTag: f2f30db0-38bd-4c8c-a4db-ae619d665869
+		summarizeBy: none
+		sourceColumn: test
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Direkte_Excelfil = m
+		mode: import
+		source =
+				let
+				    Kilde = Table.PromoteHeaders(Excel.Workbook(Web.Contents("https://naestvedkommune-my.sharepoint.com/personal/janoha_naestved_dk/Documents/Test.xlsx"), null, true){[Item="Ark1",Kind="Sheet"]}[Data])
+				in
+				    Kilde
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
